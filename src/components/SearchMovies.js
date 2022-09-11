@@ -8,7 +8,7 @@ function SearchMovies(){
 	const [movies, setMovies] = useState([]);
 
 	useEffect(() => {
-		fetch('http://www.omdbapi.com/?s=action&apikey=e13ba5f')
+		fetch(`http://www.omdbapi.com/?s=action&apikey=${apiKey}`)
 			.then(response => response.json())
 			.then(data => {
 				console.log(data.Search);
@@ -17,23 +17,32 @@ function SearchMovies(){
 			.catch(error => console.log(error))
 	}, [])
 
-	/* const movies = [
-		{
-			"Title": "Parchís",
-			"Year": "1983",
-			"Poster": "https://m.media-amazon.com/images/M/MV5BYTgxNjg2MTAtYjhmYS00NjQwLTk1YTMtNmZmOTMyNTAwZWUwXkEyXkFqcGdeQXVyMTY5MDE5NA@@._V1_SX300.jpg"
-		},
-		{
-			"Title": "Brigada en acción",
-			"Year": "1977",
-			"Poster": "N/A"
-		},
-	]; */
+	useEffect(() => {
+		console.log('%cse actualizó', 'color: salmon');
+	},[movies])
 
-	const keyword = 'PELÍCULA DEMO';
+		// Credenciales de API
+		const apiKey = 'e13ba5f'; // Intenta poner cualquier cosa antes para probar
 
-	// Credenciales de API
-	const apiKey = 'X'; // Intenta poner cualquier cosa antes para probar
+		let keyword = '';
+
+	const buscarPeliculas = async (e) => {
+		e.preventDefault();
+		try {
+			keyword = e.target.nuevaBusqueda.value
+			const response = await fetch(`http://www.omdbapi.com/?s=${keyword}&apikey=${apiKey}`)
+			const data = await response.json()
+			if(data.Search === undefined){
+				setMovies([])
+			}else{
+				setMovies(data.Search)
+			}
+			e.target.nuevaBusqueda.value = null
+
+		} catch (error) {
+			console.log(error)
+		}
+	}
 
 	return(
 		<div className="container-fluid">
@@ -43,18 +52,18 @@ function SearchMovies(){
 					<div className="row my-4">
 						<div className="col-12 col-md-6">
 							{/* Buscador */}
-							<form method="GET">
+							<form onSubmit={buscarPeliculas} method="GET">
 								<div className="form-group">
 									<label htmlFor="">Buscar por título:</label>
-									<input type="text" className="form-control" />
+									<input name='nuevaBusqueda' type="text" className="form-control" />
 								</div>
-								<button className="btn btn-info">Search</button>
+								<button className="btn btn-info" >Search</button>
 							</form>
 						</div>
 					</div>
 					<div className="row">
 						<div className="col-12">
-							<h2>Películas para la palabra: {keyword}</h2>
+							{/* <h2>Películas para la palabra: {keyword}</h2> */}
 						</div>
 						{/* Listado de películas */}
 						{
@@ -82,7 +91,7 @@ function SearchMovies(){
 							})
 						}
 					</div>
-					{ movies.length === 0 && <div className="alert alert-warning text-center">No se encontraron películas</div>}
+					{ movies.length === 0  && <div className="alert alert-warning text-center">No se encontraron películas</div>}
 				</>
 				:
 				<div className="alert alert-danger text-center my-4 fs-2">Eyyyy... ¿PUSISTE TU APIKEY?</div>
