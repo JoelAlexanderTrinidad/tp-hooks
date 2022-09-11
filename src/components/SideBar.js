@@ -5,6 +5,7 @@ import GenresInDb from './GenresInDb';
 import LastMovieInDb from './LastMovieInDb';
 import ContentRowMovies from './ContentRowMovies';
 import NotFound from './NotFound';
+import SearchMovies from './SearchMovies';
 import {Link, Route, Routes} from 'react-router-dom';
 
 function SideBar(){
@@ -12,7 +13,7 @@ function SideBar(){
         <React.Fragment>
             {/*<!-- Sidebar -->*/}
             <ul className="navbar-nav bg-gradient-secondary sidebar sidebar-dark accordion" id="accordionSidebar">
-
+                
                 {/*<!-- Sidebar - Brand -->*/}
                 <a className="sidebar-brand d-flex align-items-center justify-content-center" href="/">
                     <div className="sidebar-brand-icon">
@@ -60,6 +61,11 @@ function SideBar(){
 
                 {/*<!-- Divider -->*/}
                 <hr className="sidebar-divider d-none d-md-block"/>
+                <li className="nav-item nav-link">
+                <Link className="nav-link" to="/SearchMovies">
+                        <span>Search Movies</span></Link>
+                </li>
+                
             </ul>
             {/*<!-- End of Sidebar -->*/}
 
@@ -82,11 +88,10 @@ function SideBar(){
             <Routes>
                 <Route exact path="/" element={<ContentWrapper />} /> 
                 <Route path="/GenresInDb" element={<GenresInDb />} /> 
-                  
                 <Route path="/LastMovieInDb" element={<LastMovieInDb />} />                  
                 <Route path="/ContentRowMovies" element={<ContentRowMovies />} />
-                    
-                <Route path='/*' element={<Route />} />
+                <Route path='/SearchMovies' element={<SearchMovies />}/>
+                <Route path='/*' element={<Routes />} />
             </Routes>
             {/*<!-- End Microdesafio 2 -->*/}
         </React.Fragment>

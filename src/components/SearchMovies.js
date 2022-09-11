@@ -1,10 +1,23 @@
 import React from 'react';
+import { useState, useEffect } from 'react'
 
-import noPoster from '../assets/images/no-poster.jpg';
+// import noPoster from '../assets/images/no-poster.jpg';
 
 function SearchMovies(){
 
-	const movies = [
+	const [movies, setMovies] = useState([]);
+
+	useEffect(() => {
+		fetch('http://www.omdbapi.com/?s=action&apikey=e13ba5f')
+			.then(response => response.json())
+			.then(data => {
+				console.log(data.Search);
+				setMovies(data.Search)
+			})
+			.catch(error => console.log(error))
+	}, [])
+
+	/* const movies = [
 		{
 			"Title": "Parchís",
 			"Year": "1983",
@@ -15,7 +28,7 @@ function SearchMovies(){
 			"Year": "1977",
 			"Poster": "N/A"
 		},
-	];
+	]; */
 
 	const keyword = 'PELÍCULA DEMO';
 
